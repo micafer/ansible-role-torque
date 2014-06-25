@@ -1,0 +1,30 @@
+# RedHat related OSs
+- name: Yum install torque-mom
+  action: yum pkg=torque-mom state=installed
+  when: "ansible_os_family == 'RedHat'" 
+
+# Debian related OSs
+- name: Apt install torque-mom
+  action: apt pkg=torque-mom state=installed update_cache=yes cache_valid_time=604800
+  when: "ansible_os_family == 'Debian'"
+
+- copy: content={{torque_server}} dest=/etc/torque/server_name
+  notify:
+   - restart {{mom_service}}
+
+- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=clienthost line='$clienthost {{torque_server}}'
+  notify:
+   - restart {{mom_service}}
+
+- name: start {{mom_service}}
+  service: name={{mom_service}} state=started pattern=/usr/sbin/pbs_mom
+
+- copy: src=/etc/munge/munge.key dest=/etc/munge/munge.key owner=munge group=munge mode=0400
+  when: "ansible_os_family == 'RedHat'"
+  notify:
+  - restart munge
+
+
+
+
+

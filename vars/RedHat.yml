@@ -1,0 +1,4 @@
+torque_path: /var/lib/torque
+mom_service: pbs_mom
+server_service: pbs_server
+scheduler_service: pbs_sched

@@ -1,0 +1,4 @@
+torque_path: /var/spool/torque
+mom_service: torque-mom
+server_service: torque-server
+scheduler_service: torque-scheduler

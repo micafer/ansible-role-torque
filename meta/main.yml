@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: "Miguel Caballer"
+  description: Ansible role to install a Torque/PBS cluster
+  license: MIT
+  min_ansible_version: 1.4
+  version: 0.1
+  categories:
+    - clustering
+  platforms:
+  - name: EL
+    versions:
+    - 6
+  - name: Ubuntu
+    versions:
+    - precise
+    - quantal
+    - raring
+    - saucy
+    - trusty
+  - name: Debian
+    versions:
+    - squeeze
+    - wheezy
+  dependencies: []
