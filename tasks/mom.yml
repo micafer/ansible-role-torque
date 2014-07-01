@@ -12,7 +12,11 @@
   notify:
    - restart {{mom_service}}
 
-- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=clienthost line='$clienthost {{torque_server}}' create=yes
+- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=\$clienthost line='$clienthost {{torque_server}}' create=yes
+  notify:
+   - restart {{mom_service}}
+
+- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=\$pbsserver line='$pbsserver {{torque_server}}' create=yes
   notify:
    - restart {{mom_service}}
 
