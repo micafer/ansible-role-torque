@@ -29,10 +29,6 @@
   template: src=utils/templates/epel.repo dest=/etc/yum.repos.d/epel.repo
   when: "ansible_os_family == 'RedHat'"
 
-- name: Yum install munge in the server
-  local_action: yum pkg=munge state=installed
-  when: "ansible_os_family == 'RedHat'" 
-
 - include: "{{torque_type_of_node}}.yml"
 
 
