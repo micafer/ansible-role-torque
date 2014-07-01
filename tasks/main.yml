@@ -1,8 +1,21 @@
 - include_vars: "{{ansible_os_family}}.yml"
 
-- include: "{{torque_type_of_node}}.yml"
+# User creation, server actions
+- name: Create User {{item.name}}
+  local_action: user name={{item.name}} password={{item.password}} generate_ssh_key=yes shell=/bin/bash
+  with_items: USERS
 
-# Users creation
+- local_action: shell cp /home/{{item.name}}/.ssh/id_rsa.pub /tmp/{{item.name}}_id_rsa.pub creates=/tmp/{{item.name}}_id_rsa.pub
+  with_items: USERS
+
+- local_action: shell cp /home/{{item.name}}/.ssh/id_rsa /tmp/{{item.name}}_id_rsa creates=/tmp/{{item.name}}_id_rsa
+  with_items: USERS
+
+- name: Set the permissions of file /tmp/{{item.name}}_id_rsa
+  local_action: file path=/tmp/{{item.name}}_id_rsa mode=0644
+  with_items: USERS
+
+# User creation, node actions
 - name: Create User {{item.name}}
   action: user name={{item.name}} password={{item.password}} shell=/bin/bash
   with_items: USERS
@@ -11,15 +24,11 @@
   authorized_key: user={{item.name}} key="{{ lookup('file', '/tmp/' + item.name + '_id_rsa.pub') }}"
   with_items: USERS
 
-- name: Copy the id_rsa.pub file to the user {{item.name}}
-  action: copy src=/tmp/{{item.name}}_id_rsa.pub dest=/home/{{item.name}}/.ssh/id_rsa.pub owner={{item.name}} group={{item.name}} mode=0644
-  with_items: USERS
 
-- name: Copy the id_rsa file to the user {{item.name}}
-  action: copy src=/tmp/{{item.name}}_id_rsa dest=/home/{{item.name}}/.ssh/id_rsa owner={{item.name}} group={{item.name}} mode=0600
-  with_items: USERS
+- template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
-- template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
+- include: "{{torque_type_of_node}}.yml"
+
 
 
 

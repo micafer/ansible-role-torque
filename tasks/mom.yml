@@ -24,7 +24,14 @@
   notify:
   - restart munge
 
+# Users creation
+- name: Copy the id_rsa.pub file to the user {{item.name}}
+  action: copy src=/tmp/{{item.name}}_id_rsa.pub dest=/home/{{item.name}}/.ssh/id_rsa.pub owner={{item.name}} group={{item.name}} mode=0644
+  with_items: USERS
 
+- name: Copy the id_rsa file to the user {{item.name}}
+  action: copy src=/tmp/{{item.name}}_id_rsa dest=/home/{{item.name}}/.ssh/id_rsa owner={{item.name}} group={{item.name}} mode=0600
+  with_items: USERS
 
 
 
