@@ -15,7 +15,6 @@
   local_action: file path=/tmp/{{item.name}}_id_rsa mode=0644
   with_items: USERS
 
-# User creation, node actions
 - name: Create User {{item.name}}
   action: user name={{item.name}} password={{item.password}} shell=/bin/bash
   with_items: USERS
@@ -25,6 +24,10 @@
   with_items: USERS
 
 - template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
+
+- name: Add EPEL repo
+  template: src=utils/templates/epel.repo dest=/etc/yum.repos.d/epel.repo
+  when: "ansible_os_family == 'RedHat'"
 
 - include: "{{torque_type_of_node}}.yml"
 
