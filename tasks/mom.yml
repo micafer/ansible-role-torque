@@ -11,10 +11,12 @@
 - copy: content={{torque_server}} dest=/etc/torque/server_name
   notify:
    - restart {{mom_service}}
+   - start {{mom_service}}
 
 - lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=clienthost line='$clienthost {{torque_server}}' create=yes
   notify:
    - restart {{mom_service}}
+   - start {{mom_service}}
 
 - name: start {{mom_service}}
   service: name={{mom_service}} state=started pattern=/usr/sbin/pbs_mom

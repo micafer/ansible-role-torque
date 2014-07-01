@@ -1,11 +1,20 @@
 - name: restart {{scheduler_service}}
-  service: name={{scheduler_service}} state=started pattern=/usr/sbin/pbs_sched
+  service: name={{scheduler_service}} state=restarted pattern=/usr/sbin/pbs_sched
 
 - name: restart {{server_service}}
   service: name={{server_service}} state=restarted pattern=/usr/sbin/pbs_server
 
 - name: restart {{mom_service}}
   service: name={{mom_service}} state=restarted pattern=/usr/sbin/pbs_mom
+
+- name: start {{scheduler_service}}
+  service: name={{scheduler_service}} state=started pattern=/usr/sbin/pbs_sched
+
+- name: start {{server_service}}
+  service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
+
+- name: start {{mom_service}}
+  service: name={{mom_service}} state=started pattern=/usr/sbin/pbs_mom
 
 - name: restart munge
   service: name=munge state=restarted

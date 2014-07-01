@@ -24,7 +24,6 @@
   authorized_key: user={{item.name}} key="{{ lookup('file', '/tmp/' + item.name + '_id_rsa.pub') }}"
   with_items: USERS
 
-
 - template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
 - include: "{{torque_type_of_node}}.yml"
