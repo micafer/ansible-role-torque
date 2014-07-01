@@ -20,7 +20,7 @@
   service: name={{mom_service}} state=started pattern=/usr/sbin/pbs_mom
 
 - name: Wait for munge to be installed on the server
-  wait_for: path=/usr/sbin/create-munge-key
+  local_action: wait_for path=/usr/sbin/create-munge-key
   when: "ansible_os_family == 'RedHat'"
 
 - name: Create munge key on the server
