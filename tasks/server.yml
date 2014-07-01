@@ -20,15 +20,11 @@
   notify:
    - restart {{server_service}}
    - restart {{scheduler_service}}
-   - start {{server_service}}
-   - start {{scheduler_service}}
 
 - template: src=hosts.conf dest={{torque_path}}/server_priv/nodes
   notify:
    - restart {{server_service}}
    - restart {{scheduler_service}}
-   - start {{server_service}}
-   - start {{scheduler_service}}
 
 - template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
