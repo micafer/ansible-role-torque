@@ -16,7 +16,6 @@
   - torque-scheduler
   - torque-client
 
-
 - copy: content={{torque_server}} dest=/etc/torque/server_name
   notify:
    - restart {{server_service}}
@@ -33,7 +32,7 @@
 
 - service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
 
-- shell: qmgr -c "{{ lookup('file', 'queue.txt') }}"
+- shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr
 
 - command: /usr/sbin/create-munge-key creates=/etc/munge/munge.key
   when: "ansible_os_family == 'RedHat'"
