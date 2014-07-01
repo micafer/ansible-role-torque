@@ -2,6 +2,8 @@ Torque ansible role
 =========================
 
 Installs and configure Torque/PBS LRMS in a cluster of nodes.
+The Torque server node must be the Ansible node.
+
 How to use it:
 
 In the "Worker Nodes"
