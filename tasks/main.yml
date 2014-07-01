@@ -32,11 +32,11 @@
 - include: "{{torque_type_of_node}}.yml"
 
 - name: Open ports in the firewall
-  command: iptables -I INPUT -p {{ item[1] }} --dport {{ item[0] }}:{{ item[0] }} -j ACCEPT
+  command: iptables -I INPUT -p {{item}} --dport 15001:15004 -j ACCEPT
   ignore_errors: yes
-  with_nested:
-   - [ '15001', '15002', '15003', '15004' ]
-   - [ 'tcp', 'udp' ]
+  with_items:
+   - tcp
+   - udp
 
 - name: save iptables
   shell: iptables-save > /etc/sysconfig/iptables
