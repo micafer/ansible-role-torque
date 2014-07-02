@@ -3,6 +3,7 @@
   action: yum pkg={{ item }} state=installed
   when: "ansible_os_family == 'RedHat'"
   with_items:
+  - nfs-utils
   - torque-server
   - torque-scheduler
   - torque-client
@@ -12,9 +13,33 @@
   action: apt pkg={{ item }} state=installed update_cache=yes cache_valid_time=604800
   when: "ansible_os_family == 'Debian'"
   with_items:
+  - nfs-kernel-server
   - torque-server
   - torque-scheduler
   - torque-client
+
+# NFS tasks
+
+- service: name=rpcbind state=started enabled=yes
+
+- service: name={{nfs_svc_name}} state=started enabled=yes
+
+- service: name=nfslock state=started enabled=yes
+  when: "ansible_os_family == 'RedHat'"
+
+- lineinfile: dest=/etc/exports regexp=^/home line="/home           {{ groups.wn | join("(rw,sync,no_root_squash,no_subtree_check) ") }}(rw,sync,no_root_squash,no_subtree_check)"
+
+- name: export exports file
+  command: exportfs -ra
+
+- name: Open ports in the firewall for NFS
+  command: iptables -I INPUT -p {{ item[1] }} --dport {{ item[0] }}:{{ item[0] }} -j ACCEPT
+  ignore_errors: yes
+  with_nested:
+   - [ '111', '2049' ]
+   - [ 'tcp', 'udp' ]
+
+#Torque tasks
 
 - copy: content={{torque_server}} dest=/etc/torque/server_name
   notify:
@@ -43,4 +68,5 @@
   when: "ansible_os_family == 'RedHat'"
   notify:
   - restart munge
+
 

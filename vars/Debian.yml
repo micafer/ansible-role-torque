@@ -2,3 +2,4 @@ torque_path: /var/spool/torque
 mom_service: torque-mom
 server_service: torque-server
 scheduler_service: torque-scheduler
+nfs_svc_name: nfs-kernel-server

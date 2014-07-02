@@ -1,11 +1,11 @@
 # RedHat related OSs
 - name: Yum install torque-mom
-  action: yum pkg=torque-mom state=installed
+  action: yum pkg=torque-mom,nfs-utils state=installed
   when: "ansible_os_family == 'RedHat'" 
 
 # Debian related OSs
 - name: Apt install torque-mom
-  action: apt pkg=torque-mom state=installed update_cache=yes cache_valid_time=604800
+  action: apt pkg=torque-mom,nfs-common state=installed update_cache=yes cache_valid_time=604800
   when: "ansible_os_family == 'Debian'"
 
 - copy: content={{torque_server}} dest=/etc/torque/server_name
@@ -35,15 +35,3 @@
   when: "ansible_os_family == 'RedHat'"
   notify:
   - restart munge
-
-# Users creation
-- name: Copy the id_rsa.pub file to the user {{item.name}}
-  action: copy src=/tmp/{{item.name}}_id_rsa.pub dest=/home/{{item.name}}/.ssh/id_rsa.pub owner={{item.name}} group={{item.name}} mode=0644
-  with_items: USERS
-
-- name: Copy the id_rsa file to the user {{item.name}}
-  action: copy src=/tmp/{{item.name}}_id_rsa dest=/home/{{item.name}}/.ssh/id_rsa owner={{item.name}} group={{item.name}} mode=0600
-  with_items: USERS
-
-
-
