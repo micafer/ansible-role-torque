@@ -67,6 +67,9 @@
 
 - service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
 
-- wait_for: port=15001
-
-- shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch
+# For some reason it sometimes does not create the queue ...
+- shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch && ls && ls /var/lib/torque/server_priv/queues/batch
+  register: result
+  until: result.stdout.find("queues/batch") != -1
+  retries: 5
+  delay: 10
