@@ -67,4 +67,6 @@
 
 - service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
 
+- wait_for: port=15001
+
 - shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch
