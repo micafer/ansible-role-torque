@@ -16,9 +16,14 @@
   notify:
    - restart {{mom_service}}
 
-- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=\$pbsserver line='$pbsserver {{torque_server}}' create=yes
+- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=\$pbsserver line='$pbsserver {{torque_server}}'
   notify:
    - restart {{mom_service}}
+   
+- lineinfile: dest="{{torque_path}}/mom_priv/config" regexp=/home line='$usecp          *:/home /home'
+  notify:
+   - restart {{mom_service}}
+
 
 - name: start {{mom_service}}
   service: name={{mom_service}} state=started pattern=/usr/sbin/pbs_mom
