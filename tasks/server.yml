@@ -53,12 +53,6 @@
 
 - template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
-- service: name={{scheduler_service}} state=started pattern=/usr/sbin/pbs_sched
-
-- service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
-
-- shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch
-
 - command: /usr/sbin/create-munge-key creates=/etc/munge/munge.key
   when: "ansible_os_family == 'RedHat'"
   notify:
@@ -69,4 +63,8 @@
   notify:
   - restart munge
 
+- service: name={{scheduler_service}} state=started pattern=/usr/sbin/pbs_sched
 
+- service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
+
+- shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch
