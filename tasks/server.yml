@@ -28,8 +28,9 @@
   when: "ansible_os_family == 'RedHat'"
 
 - lineinfile: dest=/etc/exports regexp=^/home line="/home           {{ groups.wn | join("(rw,sync,no_root_squash,no_subtree_check) ") }}(rw,sync,no_root_squash,no_subtree_check)"
-  notify:
-   - export exports file
+
+- name: export exports file
+  command: exportfs -ra
 
 - name: Open ports in the firewall for NFS
   command: iptables -I INPUT -p {{ item[1] }} --dport {{ item[0] }}:{{ item[0] }} -j ACCEPT
