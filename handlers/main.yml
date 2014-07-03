@@ -9,4 +9,7 @@
 
 - name: restart munge
   service: name=munge state=restarted
+  
+- name: export exports file
+  command: exportfs -ra
 
