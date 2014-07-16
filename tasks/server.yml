@@ -69,5 +69,6 @@
 - service: name={{server_service}} state=started pattern=/usr/sbin/pbs_server
 
 - service: name=munge state=started
+  when: "ansible_os_family == 'RedHat'"
 
 - shell: echo "{{ lookup('file', 'queue.txt') }}" | qmgr creates={{torque_path}}/server_priv/queues/batch
