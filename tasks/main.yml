@@ -37,5 +37,5 @@
   shell: iptables-save > /etc/sysconfig/iptables
   when: "ansible_os_family == 'RedHat'"
 
-- mount: name=/home src={{ hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] }}:/home fstype=nfs state=unmounted
+- mount: name=/home src={{ hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] }}:/home fstype=nfs state=mounted
   when: "torque_type_of_node == 'mom'"
