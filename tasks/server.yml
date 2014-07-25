@@ -21,6 +21,7 @@
 # NFS tasks
 
 - service: name=rpcbind state=started enabled=yes
+  when: "ansible_os_family == 'RedHat'"
 
 - service: name={{nfs_svc_name}} state=started enabled=yes
   when: "ansible_os_family == 'RedHat'"
