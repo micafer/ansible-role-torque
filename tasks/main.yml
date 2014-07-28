@@ -38,5 +38,4 @@
   when: "ansible_os_family == 'RedHat'"
 
 - mount: name=/home src={{ hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] }}:/home fstype=nfs state=mounted
-  when: "torque_type_of_node == 'mom'" and hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] != ansible_eth0.ipv4.address
-  ignore_errors: yes
+  when: "torque_type_of_node == 'mom' and hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] != ansible_eth0.ipv4.address"
