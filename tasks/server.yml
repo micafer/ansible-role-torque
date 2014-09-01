@@ -29,7 +29,7 @@
 - service: name=nfslock state=started enabled=yes
   when: "ansible_os_family == 'RedHat'"
 
-- lineinfile: dest=/etc/exports regexp=^/home line="/home           {{ groups.wn | join("(rw,sync,no_root_squash,no_subtree_check) ") }}(rw,sync,no_root_squash,no_subtree_check)"
+- lineinfile: dest=/etc/exports regexp=^/home line="/home           {{ groups.wn | join("(rw,sync,no_root_squash,no_subtree_check) ") }} (rw,sync,no_root_squash,no_subtree_check)"
   when: groups.wn is defined
 
 - name: export exports file
