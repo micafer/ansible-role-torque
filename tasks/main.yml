@@ -20,10 +20,6 @@
 
 - template: src=ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
-- name: cleaning task for yum
-  command: yum clean all
-  when: "ansible_os_family == 'RedHat'"
-  
 - name: check file epel.repo
   stat: path=/etc/yum.repos.d/epel.repo
   register: epel_repo
