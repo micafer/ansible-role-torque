@@ -42,5 +42,9 @@
   shell: iptables-save > /etc/sysconfig/iptables
   when: "ansible_os_family == 'RedHat'"
 
+# to avoid errors if using this recipe without the IM
 - mount: name=/home src={{ hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] }}:/home fstype=nfs state=mounted
-  when: "torque_type_of_node == 'mom' and hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] != ansible_eth0.ipv4.address"
+  when: "torque_type_of_node == 'mom' and not hostvars[groups['front'][0]]['IM_NODE_NET_0_IP'] is defined and hostvars[groups['front'][0]]['ansible_eth0']['ipv4']['address'] != ansible_eth0.ipv4.address"
+
+- mount: name=/home src={{ hostvars[groups['front'][0]]['IM_NODE_NET_0_IP'] }}:/home fstype=nfs state=mounted
+  when: "torque_type_of_node == 'mom' and hostvars[groups['front'][0]]['IM_NODE_NET_0_IP'] is defined and hostvars[groups['front'][0]]['IM_NODE_NET_0_IP'] != IM_NODE_NET_0_IP"
