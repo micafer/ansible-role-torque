@@ -10,7 +10,7 @@
 
 # Debian related OSs
 - name: Apt install {{ item }}
-  action: apt pkg={{ item }} state=installed update_cache=yes cache_valid_time=604800
+  action: apt pkg={{ item }} state=installed update_cache=yes cache_valid_time=86400
   when: "ansible_os_family == 'Debian'"
   with_items:
   - nfs-kernel-server
