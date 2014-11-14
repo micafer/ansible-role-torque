@@ -41,6 +41,10 @@
   with_nested:
    - [ '111', '2049' ]
    - [ 'tcp', 'udp' ]
+   
+
+- name: Restart NFS server
+  service: name=nfs-kernel-server state=restarted
 
 #Torque tasks
 
