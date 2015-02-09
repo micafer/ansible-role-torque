@@ -3,7 +3,7 @@
 # User creation, server actions
 - name: Create User {{item.name}}
   register: result
-  local_action: user name={{item.name}} password={{item.password}} generate_ssh_key=yes shell=/bin/bash
+  local_action: user uid={{item.id}} name={{item.name}} password={{item.password}} generate_ssh_key=yes shell=/bin/bash
   with_items: USERS
   ignore_errors: yes
 
@@ -11,7 +11,7 @@
   with_items: USERS
 
 - name: Create User {{item.name}}
-  action: user name={{item.name}} password={{item.password}} shell=/bin/bash
+  action: user uid={{item.id}} name={{item.name}} password={{item.password}} shell=/bin/bash
   with_items: USERS
 
 - name: Add the authorized_key to the user {{item.name}}
