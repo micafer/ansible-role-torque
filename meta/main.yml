@@ -22,4 +22,4 @@ galaxy_info:
     versions:
     - squeeze
     - wheezy
-  dependencies: []
+dependencies: []
